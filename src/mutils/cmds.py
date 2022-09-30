@@ -424,6 +424,31 @@ def getSingleCsvFile():
     file = maya.cmds.fileDialog2(fileFilter="*.csv", dialogStyle=2, fileMode=1)
     return file[0] if file else ""
 
+def toType(value, type):
+    """
+    Cast a value to type.
+
+    :type value: any
+    :type type: list[str] / str
+    :rtype: type
+    """
+    if not isinstance(type, list):
+        type = [str(type)]
+    for t in type:
+        if t=='float':
+            try:
+                return float(value)
+            except:
+                pass
+        elif t=='int':
+            try:
+                return int(value)
+            except:
+                pass
+        elif t=='str':
+            return str(value)
+    return str(value)
+
 def initFloat(a):
     try:
         return float(a)
