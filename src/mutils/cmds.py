@@ -414,3 +414,47 @@ def getReferenceData(objects):
         })
 
     return data
+
+def getSingleCsvFile():
+    """
+    Get a single .csv file.
+
+    :rtype: str
+    """
+    file = maya.cmds.fileDialog2(fileFilter="*.csv", dialogStyle=2, fileMode=1)
+    return file[0] if file else ""
+
+def initFloat(a):
+    try:
+        return float(a)
+    except:
+        return 0.0
+
+def initList(a):
+    return a if isinstance(a, list) else [a]
+
+def listOperator(a, b, opt):
+    if opt=='add' or opt=='max': # list and list
+        a = initList(a)
+        b = initList(b)
+        if len(a)<len(b):
+            c = a
+            a = b
+            b = c
+
+        for i in range(len(b)):
+            try:
+                a[i] = a[i] + b[i] if opt=='add' else max(a[i],b[i]) if opt=='max' else a[i]
+            except:
+                pass
+        return a
+    elif opt=='multiplyFloat': # list and float
+        a = initList(a)
+        b = initFloat(b)
+        for i in range(len(a)):
+            try:
+                a[i] = a[i]*b
+            except:
+                pass
+        return a
+    return []
