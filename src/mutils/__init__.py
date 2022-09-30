@@ -17,7 +17,7 @@ from . import playblast
 from . import namespace
 
 from .scriptjob import ScriptJob
-from .matchnames import matchNames, groupObjects
+from .matchnames import matchNames, groupObjects, matchCurveNames
 
 from .node import Node
 from .attribute import Attribute
@@ -28,3 +28,7 @@ from .selectionset import SelectionSet, saveSelectionSet
 from .pose import Pose, savePose, loadPose
 from .animation import Animation, PasteOption, saveAnim, loadAnims
 from .mirrortable import MirrorTable, MirrorOption, saveMirrorTable
+
+from .namemapping import NameMapping, saveNameMapping
+from .curvedata import CurveData, saveCurveData
+from .datatransform import DataTransform, saveDataTransform

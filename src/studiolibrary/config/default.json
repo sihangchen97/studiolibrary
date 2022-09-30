@@ -60,6 +60,9 @@
     "studiolibrarymaya.animitem.AnimItem",
     "studiolibrarymaya.mirroritem.MirrorItem",
     "studiolibrarymaya.setsitem.SetsItem",
+    "studiolibrarymaya.namemappingitem.NameMappingItem",
+    "studiolibrarymaya.curvedataitem.CurveDataItem",
+    "studiolibrarymaya.datatransformitem.DataTransformItem",
     "studiolibrary.folderitem.FolderItem"
   ],
 
