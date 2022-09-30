@@ -67,6 +67,6 @@
   ],
 
   // Used for very basic analytics and does not send any personal information
-  "analyticsEnabled": true,
+  "analyticsEnabled": false,
   "analyticsId": "UA-50172384-1"
 }
