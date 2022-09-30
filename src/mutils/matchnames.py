@@ -170,3 +170,60 @@ def matchNames(srcObjects, dstObjects=None, dstNamespaces=None, search=None, rep
         for dstNodes in dstIndex.values():
             for dstNode in dstNodes:
                 logger.debug("Cannot find matching source object for %s" % dstNode.name())
+
+
+def matchCurveNames(srcCurveNames, dstObjects=None, dstNamespaces=None, exactMatch=True, fuzzyMatch=False):
+    """
+    :type srcCurveNames: list[str]
+    :type dstObjects: list[str]
+    :type dstNamespaces: list[str]
+    :rtype: list[(mutils.Node, mutils.Node)]
+    """
+    results = []
+    if dstObjects is None:
+        dstObjects = []
+
+    if not dstObjects and not dstNamespaces:
+        dstNamespaces = []
+
+    if not dstNamespaces and dstObjects:
+        dstGroup = groupObjects(dstObjects)
+        dstNamespaces = dstGroup.keys()
+
+    def formatNodeAttr(name):
+        s = name.split('.', 1)
+        return s[0], s[1] if len(s)==2 else s[0]
+
+    for dstObject in dstObjects:
+        dstNode = mutils.Node(dstObject)
+        dstAttrs = mutils.listAttr(dstObject, k=True)
+
+        dstNodeName = dstNode.name()
+
+        for dstAttr in dstAttrs:
+            dstAttrName = dstAttr.attr()
+
+            matchCurve = ""
+            matchType = 0 # 0 not found; 1 fuzzy match; 2 exact match
+
+            for srcCurveName in srcCurveNames:
+                srcNodeName, srcAttrName = formatNodeAttr(srcCurveName)
+
+                dstNodeName = dstNodeName.lower()
+                dstAttrName = dstAttrName.lower()
+                srcNodeName = srcNodeName.lower()
+                srcAttrName = srcAttrName.lower()
+
+                v = 0
+                v += 8 if srcNodeName==dstNodeName else 0
+                v += 4 if srcAttrName==dstAttrName else 0
+                v += 2 if dstNodeName.find(srcNodeName)!=-1 and dstAttrName.find(srcAttrName)!=-1 else 0
+                
+                if v>matchType:
+                    matchType = v
+                    matchCurve = srcCurveName
+               
+            if matchType>0:
+                results.append((matchCurve, dstAttr))
+        
+    return results
