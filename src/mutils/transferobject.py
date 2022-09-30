@@ -32,6 +32,7 @@ import time
 import locale
 import getpass
 import logging
+from collections import OrderedDict
 
 from studiovendor import six
 
@@ -76,19 +77,22 @@ class TransferObject(object):
         return t
 
     @staticmethod
-    def readJson(path):
+    def readJson(path, keepOrder=False):
         """
         Read the given json path
 
         :type path: str
+        :type keepOrder: bool
         :rtype: dict
         """
-        with open(path, "r") as f:
-            data = f.read() or "{}"
-
-        data = json.loads(data)
-
-        return data
+        try:
+            with open(path, "r") as f:
+                if keepOrder:
+                    return json.load(f, object_pairs_hook=OrderedDict)
+                else:
+                    return json.load(f)
+        except:
+            return {}
 
     @staticmethod
     def readList(path):
@@ -126,6 +130,25 @@ class TransferObject(object):
                 result[obj]["attrs"][attr] = {"type": typ, "value": val}
 
         return {"objects": result}
+    
+    def readCsv(self, path, columnMajor=False, type=['str']):
+        try:            
+            with open(path, 'r') as f:
+                srcData = [line[:-1].split(",") for line in f.readlines()]
+                data = OrderedDict()
+                if columnMajor:
+                    names = srcData[0]
+                    for name in names:
+                        data[name] = []
+                    for i in range(1,len(srcData)):
+                        for j, name in enumerate(names):
+                            data[name].append(mutils.toType(srcData[i][j], type))
+                else:
+                    for src in srcData:
+                        data[src[0]] =src[1:]
+                return data
+        except:
+            return OrderedDict()
 
     def __init__(self):
         self._path = None
