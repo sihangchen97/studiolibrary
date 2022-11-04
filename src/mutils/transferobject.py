@@ -142,7 +142,10 @@ class TransferObject(object):
                         data[name] = []
                     for i in range(1,len(srcData)):
                         for j, name in enumerate(names):
-                            data[name].append(mutils.toType(srcData[i][j], type))
+                            if j < len(srcData[i]):
+                                data[name].append(mutils.toType(srcData[i][j], type))
+                            else:
+                                data[name].append(mutils.toType(0, type))
                 else:
                     for src in srcData:
                         data[src[0]] =src[1:]
