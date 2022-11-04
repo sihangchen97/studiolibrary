@@ -63,6 +63,12 @@ class Node(object):
         :rtype: str
         """
         return self._name
+    
+    def basename(self):
+        """
+        :rtype: str
+        """
+        return self.name().split(":")[-1]
 
     def attributes(self):
         """

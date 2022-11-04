@@ -198,7 +198,7 @@ def matchCurveNames(srcCurveNames, dstObjects=None, dstNamespaces=None, exactMat
         dstNode = mutils.Node(dstObject)
         dstAttrs = mutils.listAttr(dstObject, k=True)
 
-        dstNodeName = dstNode.name()
+        dstNodeName = dstNode.basename()
 
         for dstAttr in dstAttrs:
             dstAttrName = dstAttr.attr()
