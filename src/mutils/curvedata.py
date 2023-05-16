@@ -90,7 +90,7 @@ class CurveData(mutils.TransferObject):
             return 0
     
     def curveNames(self):
-        return self.curvedata().keys()
+        return list(self.curvedata().keys())
     
     def curveValue(self, curveName, frame, default=0.0):
         try:
@@ -244,7 +244,7 @@ class CurveData(mutils.TransferObject):
 
         # Load the animation data.
         srcCurveMap = self.open(trgCurveData)
-        srcCurves = srcCurveMap.values()
+        srcCurves = list(srcCurveMap.values())
         print(srcCurveMap)
 
         try:

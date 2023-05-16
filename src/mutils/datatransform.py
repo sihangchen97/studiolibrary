@@ -124,7 +124,10 @@ class DataTransform(mutils.TransferObject):
     def doDataTransformList(self, inCurveValueListMap):
 
         def getCurveValueListInMap(curveValueListMap, curveName):
-            return curveValueListMap[curveName]  if curveName in curveValueListMap.keys() else []
+            for k in curveValueListMap.keys():
+                if k.lower()==curveName.lower():
+                    return curveValueListMap[k]
+            return []
 
         outCurveValueListMap = OrderedDict()
         for name in self.dataNames():
